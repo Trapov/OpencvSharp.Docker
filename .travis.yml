@@ -1,0 +1,14 @@
+dist: trusty
+
+jobs:
+  include:
+    - stage: opencvsharp-sdk
+      script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker build -t $DOCKER_USERNAME/opencvsharp:sdk -f Dockerfile .
+      - docker push $DOCKER_USERNAME/opencvsharp:sdk
+    - stage: opencvsharp-runtime
+      script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker build -t $DOCKER_USERNAME/opencvsharp:runtime -f Dockerfile_production .
+      - docker push $DOCKER_USERNAME/opencvsharp:sdk
